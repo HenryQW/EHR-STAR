@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar toggleable="md" type="dark" variant="primary">
-      <b-navbar-brand href="#"> EHR STAR</b-navbar-brand>
+    <b-navbar toggleable="md" variant="light">
+      <b-navbar-brand href="#">EHR STAR Literature Browser</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

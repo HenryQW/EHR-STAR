@@ -1,8 +1,8 @@
 <template>
-  <b-container class="mb-2">
+  <b-container class="mb-2" fluid>
     <!-- User Interface controls -->
     <b-row>
-      <b-col lg="6">
+      <b-col lg="5">
         <b-form-group
           v-slot="{ ariaDescribedby }"
           v-model="sortDirection"
@@ -10,7 +10,7 @@
           description="Leave all unchecked to search on all fields"
           label-cols-sm="3"
           label-align-sm="right"
-          label-size="sm"
+          label-size="lg"
           class="mb-0"
         >
           <b-form-checkbox-group
@@ -25,9 +25,9 @@
         </b-form-group>
       </b-col>
 
-      <b-col lg="3">
+      <b-col lg="4">
         <b-form-tags
-          id="tags-with-dropdown"
+          id="author-tags-with-dropdown"
           v-model="authorSelected"
           no-outer-focus
           class="mb-2"
@@ -61,7 +61,6 @@
                   label-cols-md="auto"
                   class="mb-0"
                   label-size="sm"
-                  :description="authorSearchDesc"
                   :disabled="disabled"
                 >
                   <b-form-input
@@ -75,13 +74,13 @@
               </b-dropdown-form>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button
-                v-for="option in availableAuthors"
+                v-for="option in availableTags('author')"
                 :key="option"
                 @click="addToTagValue({ option, addTag })"
               >
                 {{ option }}
               </b-dropdown-item-button>
-              <b-dropdown-text v-if="availableAuthors.length === 0">
+              <b-dropdown-text v-if="availableTags('author').length === 0">
                 There are no authors available to select
               </b-dropdown-text>
             </b-dropdown>
@@ -90,8 +89,8 @@
       </b-col>
       <b-col lg="3">
         <b-form-tags
-          id="tags-with-dropdown"
-          v-model="authorSelected"
+          id="technique-tags-with-dropdown"
+          v-model="techniqueSelected"
           no-outer-focus
           class="mb-2"
         >
@@ -102,6 +101,7 @@
                   :title="tag"
                   :disabled="disabled"
                   variant="info"
+                  :class="tag"
                   @remove="removeTag(tag)"
                   >{{ tag }}</b-form-tag
                 >
@@ -120,16 +120,15 @@
               <b-dropdown-form @submit.stop.prevent="() => {}">
                 <b-form-group
                   label="Search techniques"
-                  label-for="author-search-input"
+                  label-for="technique-search-input"
                   label-cols-md="auto"
                   class="mb-0"
                   label-size="sm"
-                  :description="authorSearchDesc"
                   :disabled="disabled"
                 >
                   <b-form-input
-                    id="author-search-input"
-                    v-model="authorSearch"
+                    id="technique-search-input"
+                    v-model="techniqueSearch"
                     type="search"
                     size="sm"
                     autocomplete="off"
@@ -138,14 +137,14 @@
               </b-dropdown-form>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button
-                v-for="option in availableAuthors"
+                v-for="option in availableTags('technique')"
                 :key="option"
                 @click="addToTagValue({ option, addTag })"
               >
                 {{ option }}
               </b-dropdown-item-button>
-              <b-dropdown-text v-if="availableAuthors.length === 0">
-                There are no authors available to select
+              <b-dropdown-text v-if="availableTags('technique').length === 0">
+                There are no techniques available to select
               </b-dropdown-text>
             </b-dropdown>
           </template>
@@ -154,6 +153,12 @@
       <b-col sm="12">
         <b-form-group>
           <b-input-group size="md">
+            <b-input-group-prepend>
+              <b-input-group-text>
+                <b-icon icon="search" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+
             <b-form-input
               id="filter-input"
               v-model="filter"
@@ -173,36 +178,60 @@
 
     <!-- Main table element -->
     <b-table
-      :items="papersWithTag()"
+      :items="filteredItems"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
       :filter="filter"
+      :filter-function="filterTable"
       :filter-included-fields="filterOn"
       :sort-by.sync="sortBy"
       :sort-direction="sortDirection"
+      :sort-desc="true"
       stacked="md"
       show-empty
       small
       fixed
+      striped
       @filtered="onFiltered"
     >
       <template #cell(author)="row">
-        <!-- <b-form-tags
-          v-model="row.item.author"
-          size="lg"
-          tag-variant="success"
-        ></b-form-tags> -->
-
         <b-button
-          v-for="author in authorTagHighlight(row.item.author)"
+          v-for="author in row.item.author"
           :key="author"
           size="sm"
-          :variant="author.includes('active_') ? 'success' : 'none'"
-          @click="clickAddTag(author.replace('active_', ''))"
+          :variant="authorSelected.includes(author) ? 'success' : 'none'"
+          @click="clickAddTag(author)"
         >
-          {{ author.replace('active_', '') }}
+          {{ author }}
         </b-button>
+      </template>
+
+      <template #cell(title)="row">
+        <b-badge v-if="row.item.scope[0] === 'context'" variant="warning"
+          >context</b-badge
+        >
+        <b-badge v-if="row.item.scope[0] === 'focus'" variant="success"
+          >focus</b-badge
+        >
+        {{ row.item.title }}
+        <b-button
+          target="_blank"
+          :href="'https://doi.org/' + row.item.DOI"
+          variant="danger"
+          size="sm"
+        >
+          Read
+        </b-button>
+      </template>
+
+      <template #cell(citation)="row">
+        <div
+          v-if="row.item.scope[0] !== 'context' && row.item.name"
+          @click="openModal(row.item, row.index, $event.target)"
+        >
+          <b-img thumbnail fluid :src="`/images/${row.item.name}.png`"></b-img>
+        </div>
       </template>
 
       <template #cell(compTech)="row">
@@ -216,21 +245,6 @@
         </b-badge>
       </template>
 
-      <template #cell(DOI)="row">
-        <b-button
-          target="_blank"
-          :href="'https://doi.org/' + row.item.DOI"
-          variant="info"
-          size="sm"
-        >
-          View
-        </b-button>
-
-        <!-- <b-button size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-        </b-button> -->
-      </template>
-
       <template #row-details="row">
         <b-card>
           <ul>
@@ -240,7 +254,63 @@
           </ul>
         </b-card>
       </template>
+
+      <template #table-caption>
+        <b-badge variant="success">focus</b-badge> refers to literature
+        <b-badge variant="danger">with</b-badge> a detailed description in our
+        EHR STAR. <br />
+        <b-badge variant="warning">context</b-badge> refers to literature
+        <b-badge variant="danger">without</b-badge> a detailed description in
+        our EHR STAR.
+      </template>
     </b-table>
+
+    <b-modal
+      :id="infoModal.id"
+      :title="infoModal.data.title"
+      ok-only
+      @hide="resetInfoModal"
+    >
+      <template #modal-title>
+        <h4>
+          {{ infoModal.data.title }}
+        </h4>
+
+        <h6>
+          <i>{{ infoModal.data.pub }}</i>
+        </h6>
+        <h6>{{ infoModal.data.author.join(', ') }}</h6>
+      </template>
+
+      <b-img
+        fluid
+        :src="`/images/${infoModal.data.name}.png`"
+        :alt="infoModal.data.citation"
+      ></b-img>
+
+      <template #modal-footer="{ ok }">
+        <div class="w-100">
+          <b-button
+            variant="primary"
+            size="sm"
+            class="float-right"
+            @click="ok()"
+          >
+            Close
+          </b-button>
+
+          <b-button
+            target="_blank"
+            :href="'https://doi.org/' + infoModal.data.DOI"
+            variant="danger"
+            size="sm"
+            class="float-right mr-1"
+          >
+            Read
+          </b-button>
+        </div>
+      </template>
+    </b-modal>
 
     <div>
       <b-col sm="12">
@@ -254,6 +324,7 @@
         ></b-pagination>
       </b-col>
     </div>
+    <hr />
   </b-container>
 </template>
 
@@ -661,7 +732,7 @@ export default {
         },
         {
           EHRs: 1,
-          Name: 'Radial coordinates',
+          name: 'Radial coordinates',
           UMLS: ['C0684249'],
           author: ['David Borland', 'Vivian L West', 'W Ed Hammond'],
           citation: 'Borland2014',
@@ -699,10 +770,11 @@ export default {
             'James Edward Pugh',
             'Anirudh Thommandram',
             'Andrew James',
-            'Carolyn Mcgregor',
+            'Carolyn McGregor',
           ],
           citation: 'Kamaleswaran2014',
           compTech: ['Clustering'],
+          name: 'Visualizing Neonatal Spells',
           pub:
             'IEEE VIS 2014 workshop on visualization of electronic health records',
           scope: ['focus'],
@@ -734,6 +806,7 @@ export default {
           term: ['EHR'],
           title:
             'Cohort Comparison of Event Sequences with Balanced Integration of Visual Analytics and Statistics',
+          year: 2015,
         },
         {
           DOI: '10.1145/2836034.2836035',
@@ -757,6 +830,7 @@ export default {
           term: ['EHR'],
           title:
             'A visual active learning system for the assessment of patient well-being in prostate cancer research',
+          name: 'Visual active learning',
           year: 2015,
         },
         {
@@ -906,6 +980,7 @@ export default {
           pub: 'Online Journal of Public Health Informatics',
           scope: ['focus'],
           term: ['EMR'],
+          name: 'Beyond Geo',
           title:
             'Beyond simple charts: Design of visualizations for big health data',
           year: 2016,
@@ -922,6 +997,7 @@ export default {
             '2017 IEEE workshop on visual analytics in healthcare, VAHC 2017',
           scope: ['focus'],
           term: ['EHR'],
+          name: 'Timeline-based',
           title:
             'A timeline-based framework for aggregating and summarizing electronic health records',
           year: 2017,
@@ -954,7 +1030,7 @@ export default {
           author: [
             'Chao Tong',
             'Liam McNabb',
-            'Robert S Laramee',
+            'Robert S. Laramee',
             'Jane Lyons',
             'Angharad M Walters',
             'Daniel Thayer',
@@ -975,7 +1051,7 @@ export default {
           author: [
             'Chao Tong',
             'Richard Roberts',
-            'Robert S Laramee',
+            'Robert S. Laramee',
             'Damon Berridge',
             'Daniel Thayer',
           ],
@@ -1039,13 +1115,14 @@ export default {
         {
           EHRs: 1001,
           UMLS: ['C3242284'],
-          author: ['Chao Tong', 'Liam Mcnabb', 'Robert S Laramee'],
+          author: ['Chao Tong', 'Liam McNabb', 'Robert S. Laramee'],
           citation: 'Tong2018',
           compTech: ['GEO'],
           pub: 'Computer graphics & visual computing',
           scope: ['focus'],
           term: ['Public healthcare data'],
           title: 'Cartograms with topological features',
+          name: 'Cartograms with Topological Features',
           year: 2018,
         },
         {
@@ -1085,6 +1162,7 @@ export default {
             'Roy A. Ruddle',
           ],
           citation: 'Bernard2019',
+          name: 'Dashboard Networks',
           compTech: ['ESS'],
           pub: 'IEEE Transactions on Visualization and Computer Graphics',
           scope: ['focus'],
@@ -1186,6 +1264,7 @@ export default {
           UMLS: ['C3242284'],
           author: ['Liam McNabb', 'Robert S. Laramee'],
           citation: 'McNabb2019',
+          name: 'Multivariate Maps',
           compTech: ['GEO'],
           pub: 'Information',
           scope: ['focus'],
@@ -1284,26 +1363,17 @@ export default {
           sortable: true,
           thStyle: 'width:40%',
         },
+        { key: 'citation', label: 'Image' },
         {
           key: 'author',
           label: 'Authors',
           sortable: true,
-          sortDirection: 'desc',
-          formatter: (value, key, item) => {
-            return value ? value.join(', ') : ''
-          },
           thStyle: 'width:25%',
         },
-        { key: 'pub', label: 'Publication', sortable: true },
+        { key: 'pub', label: 'Publication' },
         {
           key: 'compTech',
-          label: 'Complimentary Techniques',
-        },
-        {
-          key: 'DOI',
-          label: 'DOI',
-          sortable: false,
-
+          label: 'Techniques',
           thStyle: 'width:5%',
         },
         {
@@ -1317,13 +1387,11 @@ export default {
       totalRows: 1,
       currentPage: 1,
       perPage: 10,
-      sortBy: '',
-      sortDesc: false,
+      sortBy: 'year',
       sortDirection: 'asc',
       filter: null,
       filterOn: [],
-
-      authorOptions: [
+      authorList: [
         'Aaron Snyder',
         'Albert Amor-Amorós',
         'Alex A. T. Bui',
@@ -1350,7 +1418,6 @@ export default {
         'Brigitte I. Frohnert',
         'Bum Chul Kwon',
         'Carolyn McGregor',
-        'Carolyn Mcgregor',
         'Catherine Plaisant',
         'Chao Tong',
         'Charles Perin',
@@ -1424,7 +1491,6 @@ export default {
         'Layla Shahamat',
         'Li Li',
         'Liam McNabb',
-        'Liam Mcnabb',
         'Lilia L. Ramírez-Ramírez',
         'Lucia Sacchi',
         'Mahdi Pakdaman Naeini',
@@ -1467,7 +1533,6 @@ export default {
         'Richard Roberts',
         'Rick Larsen',
         'Rishikesan Kamaleswaran',
-        'Robert S Laramee',
         'Robert S. Laramee',
         'Rong Zhao',
         'Rongjian Lan',
@@ -1516,31 +1581,75 @@ export default {
       ],
       authorSearch: '',
       authorSelected: [],
+      techniqueList: ['ESS', 'ML', 'Clustering', 'Comparison'],
+      techniqueSearch: '',
+      techniqueSelected: [],
+      infoModal: {
+        id: 'info-modal',
+        data: {
+          author: [],
+        },
+      },
     }
   },
   computed: {
-    criteria() {
-      // Compute the search criteria
-      return this.authorSearch.trim().toLowerCase()
-    },
-    availableAuthors() {
-      const criteria = this.criteria
-      // Filter out already selected options
-      const options = this.authorOptions.filter(
-        (opt) => !this.authorSelected.includes(opt)
-      )
-      if (criteria) {
-        // Show only options that match criteria
-        return options.filter((opt) => opt.toLowerCase().includes(criteria))
+    filteredItems() {
+      const filterByAuthor = (paper) => {
+        for (let i = 0; i < paper.author.length; i++) {
+          const author = paper.author[i]
+          if (this.authorSelected.includes(author)) {
+            return true
+          }
+        }
+        return false
       }
-      // Show all options available
-      return options
-    },
-    authorSearchDesc() {
-      if (this.criteria && this.availableAuthors.length === 0) {
-        return 'There are no authors matching your search criteria'
+
+      const filterByTechnique = (paper) => {
+        if (paper.compTech) {
+          for (let i = 0; i < paper.compTech.length; i++) {
+            const technique = paper.compTech[i]
+            if (this.techniqueSelected.includes(technique)) {
+              return true
+            }
+          }
+        }
+        return false
       }
-      return ''
+
+      const res = this.papers.filter((paper) => {
+        if (
+          this.authorSelected.length === 0 &&
+          this.techniqueSelected.length === 0
+        ) {
+          return true
+        }
+
+        // if author tags are selected
+        if (this.authorSelected.length > 0) {
+          const filterByAuthorResult = filterByAuthor(paper)
+          // if technique tags are selected as well
+          if (this.techniqueSelected.length > 0) {
+            if (filterByAuthorResult && filterByTechnique(paper)) {
+              return true
+            }
+          } else if (filterByAuthorResult) {
+            return true
+          }
+        }
+
+        // if only technique tags are selected
+        else if (this.techniqueSelected.length > 0) {
+          if (filterByTechnique(paper)) {
+            return true
+          }
+        }
+
+        return false
+      })
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.totalRows = res.length
+      return res
     },
   },
   mounted() {
@@ -1548,6 +1657,31 @@ export default {
     this.totalRows = this.papers.length
   },
   methods: {
+    availableTags(type) {
+      const criteria = this[type + 'Search'].trim().toLowerCase()
+      const options = this[type + 'List'].filter(
+        (o) => !this[type + 'Selected'].includes(o)
+      )
+      if (criteria) {
+        return options.filter((opt) => opt.toLowerCase().includes(criteria))
+      }
+      return options
+    },
+    filterTable(row, filter) {
+      let filters = ['title', 'author', 'pub']
+      if (this.filterOn.length > 0) {
+        filters = this.filterOn
+      }
+
+      for (let i = 0; i < filters.length; i++) {
+        const f = filters[i]
+        if (row[f].toString().toLowerCase().includes(filter)) {
+          return true
+        }
+      }
+
+      return false
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
@@ -1557,51 +1691,20 @@ export default {
       addTag(option)
       this.authorSearch = ''
     },
-    papersWithTag() {
-      if (this.authorSelected.length === 0) {
-        this.totalRows = this.papers.length
-        return this.papers
-      }
-
-      const res = []
-
-      this.authorSelected.forEach((t) => {
-        this.papers.forEach((p) => {
-          if (
-            p.author.includes(t) &&
-            res.filter((r) => r.citation === p.citation).length === 0
-          )
-            res.push(p)
-        })
-      })
-
-      this.totalRows = res.length
-      return res
-    },
-    authorTagHighlight(authors) {
-      let res = []
-
-      if (this.authorSelected.length > 0) {
-        authors.forEach((t) => {
-          if (this.authorSelected.includes(t)) {
-            res.push(`active_${t}`)
-          } else {
-            res.push(t)
-          }
-        })
-      } else {
-        res = authors
-      }
-
-      return res
-    },
     clickAddTag(author) {
-      author = author.replace('active_', '')
-
       if (this.authorSelected.includes(author)) {
         this.authorSelected = this.authorSelected.filter((a) => a !== author)
       } else {
         this.authorSelected.push(author)
+      }
+    },
+    openModal(item, index, button) {
+      this.infoModal.data = item
+      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+    },
+    resetInfoModal() {
+      this.infoModal.data = {
+        author: [],
       }
     },
   },

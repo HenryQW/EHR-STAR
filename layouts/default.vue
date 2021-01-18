@@ -2,6 +2,7 @@
   <div>
     <Nav />
     <Nuxt class="mt-2" />
+    <Footer />
   </div>
 </template>
 
@@ -16,6 +17,12 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 12em; /* Margin bottom by footer height */
 }
 
 *,
@@ -23,5 +30,13 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 12rem; /* Set the fixed height of the footer here */
+  background-color: #f5f5f5;
 }
 </style>
