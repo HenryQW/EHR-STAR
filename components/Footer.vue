@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer px-2 py-3">
+  <footer class="footer px-2 py-lg-5 py-4">
     <b-row>
       <b-col cols="5" offset="1">
         <h4>About</h4>

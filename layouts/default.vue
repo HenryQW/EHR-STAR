@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  margin-bottom: 12em; /* Margin bottom by footer height */
+  margin-bottom: 15em; /* Margin bottom by footer height */
 }
 
 *,
@@ -36,7 +36,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 12rem; /* Set the fixed height of the footer here */
+  height: 15rem; /* Set the fixed height of the footer here */
   background-color: #f5f5f5;
 }
 </style>
