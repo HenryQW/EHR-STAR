@@ -665,7 +665,7 @@ export default {
           UMLS: ['C0684249'],
           author: ['David Borland', 'Vivian L West', 'W Ed Hammond'],
           citation: 'Borland2014',
-          compTech: ['Clustering'],
+          compTech: ['Comparison'],
           pub:
             'Proceedings of the 2014 Workshop on Visual Analytics in Healthcare',
           related: ['Gotz2016'],
@@ -1122,7 +1122,7 @@ export default {
             'Atul J. Butte',
           ],
           citation: 'Glicksberg2019',
-          compTech: ['Comparison'],
+          compTech: ['Others'],
           editor: [{ family: 'Wren', given: 'Jonathan' }],
           name: 'PatientExploreR',
           notVis: true,

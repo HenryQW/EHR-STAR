@@ -7,8 +7,8 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="#">Link 1</b-nav-item>
-          <b-nav-item href="#">Link 2</b-nav-item>
+          <b-nav-item href="#">EHR Literature</b-nav-item>
+          <b-nav-item href="#">EHR Dataset</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
