@@ -1,338 +1,341 @@
 <template>
-  <b-container class="mb-2" fluid>
-    <!-- User Interface controls -->
-    <b-row>
-      <b-col lg="5">
-        <b-form-group
-          v-slot="{ ariaDescribedby }"
-          v-model="sortDirection"
-          label="Search On"
-          description="Leave all unchecked to search on all fields"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="lg"
-          class="mb-0"
-        >
-          <b-form-checkbox-group
-            v-model="filterOn"
-            :aria-describedby="ariaDescribedby"
-            class="mt-1"
+  <div class="container-fluid">
+    <h1>EHR Literature</h1>
+    <b-container class="mb-2" fluid>
+      <!-- User Interface controls -->
+      <b-row>
+        <b-col lg="5">
+          <b-form-group
+            v-slot="{ ariaDescribedby }"
+            v-model="sortDirection"
+            label="Search On"
+            description="Leave all unchecked to search on all fields"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label-size="lg"
+            class="mb-0"
           >
-            <b-form-checkbox value="author">Authors</b-form-checkbox>
-            <b-form-checkbox value="title">Title</b-form-checkbox>
-            <b-form-checkbox value="pub">Publication</b-form-checkbox>
-          </b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="4">
-        <b-form-tags
-          id="author-tags-with-dropdown"
-          v-model="authorSelected"
-          no-outer-focus
-          class="mb-2"
-        >
-          <template #default="{ tags, disabled, addTag, removeTag }">
-            <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
-              <li v-for="tag in tags" :key="tag" class="list-inline-item">
-                <b-form-tag
-                  :title="tag"
-                  :disabled="disabled"
-                  variant="info"
-                  @remove="removeTag(tag)"
-                  >{{ tag }}</b-form-tag
-                >
-              </li>
-            </ul>
-
-            <b-dropdown
-              size="sm"
-              variant="outline-success"
-              block
-              menu-class="w-100"
+            <b-form-checkbox-group
+              v-model="filterOn"
+              :aria-describedby="ariaDescribedby"
+              class="mt-1"
             >
-              <template #button-content>
-                <b-icon icon="people-fill"></b-icon> Choose authors
-              </template>
-              <b-dropdown-form @submit.stop.prevent="() => {}">
-                <b-form-group
-                  label="Search authors"
-                  label-for="author-search-input"
-                  label-cols-md="auto"
-                  class="mb-0"
-                  label-size="sm"
-                  :disabled="disabled"
-                >
-                  <b-form-input
-                    id="author-search-input"
-                    v-model="authorSearch"
-                    type="search"
-                    size="sm"
-                    autocomplete="off"
-                  ></b-form-input>
-                </b-form-group>
-              </b-dropdown-form>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item-button
-                v-for="option in availableTags('author')"
-                :key="option"
-                @click="addToTagValue({ option, addTag })"
+              <b-form-checkbox value="author">Authors</b-form-checkbox>
+              <b-form-checkbox value="title">Title</b-form-checkbox>
+              <b-form-checkbox value="pub">Publication</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
+
+        <b-col lg="4">
+          <b-form-tags
+            id="author-tags-with-dropdown"
+            v-model="authorSelected"
+            no-outer-focus
+            class="mb-2"
+          >
+            <template #default="{ tags, disabled, addTag, removeTag }">
+              <ul
+                v-if="tags.length > 0"
+                class="list-inline d-inline-block mb-2"
               >
-                {{ option }}
-              </b-dropdown-item-button>
-              <b-dropdown-text v-if="availableTags('author').length === 0">
-                There are no authors available to select
-              </b-dropdown-text>
-            </b-dropdown>
-          </template>
-        </b-form-tags>
-      </b-col>
-      <b-col lg="3">
-        <b-form-tags
-          id="technique-tags-with-dropdown"
-          v-model="techniqueSelected"
-          no-outer-focus
-          class="mb-2"
-        >
-          <template #default="{ tags, disabled, addTag, removeTag }">
-            <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
-              <li v-for="tag in tags" :key="tag" class="list-inline-item">
-                <b-form-tag
-                  :title="tag"
-                  :disabled="disabled"
-                  variant="info"
-                  :class="tag"
-                  @remove="removeTag(tag)"
-                  >{{ tag }}</b-form-tag
-                >
-              </li>
-            </ul>
+                <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                  <b-form-tag
+                    :title="tag"
+                    :disabled="disabled"
+                    variant="info"
+                    @remove="removeTag(tag)"
+                    >{{ tag }}</b-form-tag
+                  >
+                </li>
+              </ul>
 
-            <b-dropdown
-              size="sm"
-              variant="outline-success"
-              block
-              menu-class="w-100"
-            >
-              <template #button-content>
-                <b-icon icon="bezier"></b-icon> Choose techniques
-              </template>
-              <b-dropdown-form @submit.stop.prevent="() => {}">
-                <b-form-group
-                  label="Search techniques"
-                  label-for="technique-search-input"
-                  label-cols-md="auto"
-                  class="mb-0"
-                  label-size="sm"
-                  :disabled="disabled"
-                >
-                  <b-form-input
-                    id="technique-search-input"
-                    v-model="techniqueSearch"
-                    type="search"
-                    size="sm"
-                    autocomplete="off"
-                  ></b-form-input>
-                </b-form-group>
-              </b-dropdown-form>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item-button
-                v-for="option in availableTags('technique')"
-                :key="option"
-                @click="addToTagValue({ option, addTag })"
+              <b-dropdown
+                size="sm"
+                variant="outline-success"
+                block
+                menu-class="w-100"
               >
-                {{ option }}
-              </b-dropdown-item-button>
-              <b-dropdown-text v-if="availableTags('technique').length === 0">
-                There are no techniques available to select
-              </b-dropdown-text>
-            </b-dropdown>
-          </template>
-        </b-form-tags>
-      </b-col>
-      <b-col sm="12">
-        <b-form-group>
-          <b-input-group size="md">
-            <b-input-group-prepend>
-              <b-input-group-text>
-                <b-icon icon="search" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-
-            <b-form-input
-              id="filter-input"
-              v-model="filter"
-              type="search"
-              placeholder="Type to Search"
-            ></b-form-input>
-
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"
-                >Clear</b-button
+                <template #button-content>
+                  <b-icon icon="people-fill"></b-icon> Choose authors
+                </template>
+                <b-dropdown-form @submit.stop.prevent="() => {}">
+                  <b-form-group
+                    label="Search authors"
+                    label-for="author-search-input"
+                    label-cols-md="auto"
+                    class="mb-0"
+                    label-size="sm"
+                    :disabled="disabled"
+                  >
+                    <b-form-input
+                      id="author-search-input"
+                      v-model="authorSearch"
+                      type="search"
+                      size="sm"
+                      autocomplete="off"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-dropdown-form>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item-button
+                  v-for="option in availableTags('author')"
+                  :key="option"
+                  @click="addToTagValue({ option, addTag })"
+                >
+                  {{ option }}
+                </b-dropdown-item-button>
+                <b-dropdown-text v-if="availableTags('author').length === 0">
+                  There are no authors available to select
+                </b-dropdown-text>
+              </b-dropdown>
+            </template>
+          </b-form-tags>
+        </b-col>
+        <b-col lg="3">
+          <b-form-tags
+            id="technique-tags-with-dropdown"
+            v-model="techniqueSelected"
+            no-outer-focus
+            class="mb-2"
+          >
+            <template #default="{ tags, disabled, addTag, removeTag }">
+              <ul
+                v-if="tags.length > 0"
+                class="list-inline d-inline-block mb-2"
               >
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-    </b-row>
+                <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                  <b-form-tag
+                    :title="tag"
+                    :disabled="disabled"
+                    variant="info"
+                    :class="tag"
+                    @remove="removeTag(tag)"
+                    >{{ tag }}</b-form-tag
+                  >
+                </li>
+              </ul>
 
-    <!-- Main table element -->
-    <b-table
-      :items="filteredItems"
-      :fields="fields"
-      :current-page="currentPage"
-      :per-page="perPage"
-      :filter="filter"
-      :filter-function="filterTable"
-      :filter-included-fields="filterOn"
-      :sort-by.sync="sortBy"
-      :sort-direction="sortDirection"
-      :sort-desc="true"
-      stacked="md"
-      show-empty
-      small
-      fixed
-      striped
-      @filtered="onFiltered"
-    >
-      <template #cell(author)="row">
-        <b-button
-          v-for="author in row.item.author"
-          :key="author"
-          size="sm"
-          :variant="authorSelected.includes(author) ? 'success' : 'none'"
-          @click="clickAddTag(author)"
-        >
-          {{ author }}
-        </b-button>
-      </template>
+              <b-dropdown
+                size="sm"
+                variant="outline-success"
+                block
+                menu-class="w-100"
+              >
+                <template #button-content>
+                  <b-icon icon="bezier"></b-icon> Choose techniques
+                </template>
+                <b-dropdown-form @submit.stop.prevent="() => {}">
+                  <b-form-group
+                    label="Search techniques"
+                    label-for="technique-search-input"
+                    label-cols-md="auto"
+                    class="mb-0"
+                    label-size="sm"
+                    :disabled="disabled"
+                  >
+                    <b-form-input
+                      id="technique-search-input"
+                      v-model="techniqueSearch"
+                      type="search"
+                      size="sm"
+                      autocomplete="off"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-dropdown-form>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-item-button
+                  v-for="option in availableTags('technique')"
+                  :key="option"
+                  @click="addToTagValue({ option, addTag })"
+                >
+                  {{ option }}
+                </b-dropdown-item-button>
+                <b-dropdown-text v-if="availableTags('technique').length === 0">
+                  There are no techniques available to select
+                </b-dropdown-text>
+              </b-dropdown>
+            </template>
+          </b-form-tags>
+        </b-col>
+        <b-col sm="12">
+          <b-form-group>
+            <b-input-group size="md">
+              <b-input-group-prepend>
+                <b-input-group-text>
+                  <b-icon icon="search" />
+                </b-input-group-text>
+              </b-input-group-prepend>
 
-      <template #cell(title)="row">
-        <b-badge v-if="row.item.scope[0] === 'context'" variant="warning"
-          >context</b-badge
-        >
-        <b-badge v-if="row.item.scope[0] === 'focus'" variant="success"
-          >focus</b-badge
-        >
-        {{ row.item.title }}
-        <b-button
-          target="_blank"
-          :href="'https://doi.org/' + row.item.DOI"
-          variant="danger"
-          size="sm"
-        >
-          Read
-        </b-button>
-      </template>
+              <b-form-input
+                id="filter-input"
+                v-model="filter"
+                type="search"
+                placeholder="Type to Search"
+              ></b-form-input>
 
-      <template #cell(citation)="row">
-        <div
-          v-if="row.item.scope[0] !== 'context' && row.item.name"
-          @click="openModal(row.item, row.index, $event.target)"
-        >
-          <b-img thumbnail fluid :src="`/images/${row.item.name}.png`"></b-img>
-        </div>
-      </template>
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''"
+                  >Clear</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
 
-      <template #cell(compTech)="row">
-        <b-badge
-          v-for="tech in row.item.compTech"
-          :key="tech"
-          size="sm"
-          :class="tech"
-        >
-          {{ tech }}
-        </b-badge>
-      </template>
-
-      <template #row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">
-              {{ key }}: {{ value }}
-            </li>
-          </ul>
-        </b-card>
-      </template>
-
-      <template #table-caption>
-        <b-badge variant="success">focus</b-badge> refers to literature
-        <b-badge variant="danger">with</b-badge> a detailed description in our
-        EHR STAR. <br />
-        <b-badge variant="warning">context</b-badge> refers to literature
-        <b-badge variant="danger">without</b-badge> a detailed description in
-        our EHR STAR.
-      </template>
-    </b-table>
-
-    <b-modal
-      :id="infoModal.id"
-      :title="infoModal.data.title"
-      ok-only
-      @hide="resetInfoModal"
-    >
-      <template #modal-title>
-        <h4>
-          {{ infoModal.data.title }}
-        </h4>
-
-        <h6>
-          <i>{{ infoModal.data.pub }}</i>
-        </h6>
-        <h6>{{ infoModal.data.author.join(', ') }}</h6>
-      </template>
-
-      <b-img
-        fluid
-        :src="`/images/${infoModal.data.name}.png`"
-        :alt="infoModal.data.citation"
-      ></b-img>
-
-      <template #modal-footer="{ ok }">
-        <div class="w-100">
+      <!-- Main table element -->
+      <b-table
+        :items="filteredItems"
+        :fields="fields"
+        :current-page="currentPage"
+        :per-page="perPage"
+        :filter="filter"
+        :filter-function="filterTable"
+        :filter-included-fields="filterOn"
+        :sort-by.sync="sortBy"
+        :sort-direction="sortDirection"
+        :sort-desc="true"
+        stacked="md"
+        show-empty
+        small
+        fixed
+        striped
+        @filtered="onFiltered"
+      >
+        <template #cell(author)="row">
           <b-button
-            variant="primary"
+            v-for="author in row.item.author"
+            :key="author"
             size="sm"
-            class="float-right"
-            @click="ok()"
+            :variant="authorSelected.includes(author) ? 'success' : 'none'"
+            @click="clickAddTag(author)"
           >
-            Close
+            {{ author }}
           </b-button>
+        </template>
 
+        <template #cell(title)="row">
+          <b-badge v-if="row.item.scope[0] === 'context'" variant="warning"
+            >context</b-badge
+          >
+          <b-badge v-if="row.item.scope[0] === 'focus'" variant="success"
+            >focus</b-badge
+          >
+          {{ row.item.title }}
           <b-button
             target="_blank"
-            :href="'https://doi.org/' + infoModal.data.DOI"
+            :href="'https://doi.org/' + row.item.DOI"
             variant="danger"
             size="sm"
-            class="float-right mr-1"
           >
             Read
           </b-button>
-        </div>
-      </template>
-    </b-modal>
+        </template>
 
-    <div>
-      <b-col sm="12">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="center"
-          size="md"
-          class="my-0"
-        ></b-pagination>
-      </b-col>
-    </div>
-    <hr />
-  </b-container>
+        <template #cell(citation)="row">
+          <div
+            v-if="row.item.scope[0] !== 'context' && row.item.name"
+            @click="openModal(row.item, row.index, $event.target)"
+          >
+            <b-img
+              thumbnail
+              fluid
+              :src="`/images/${row.item.name}.png`"
+            ></b-img>
+          </div>
+        </template>
+
+        <template #cell(compTech)="row">
+          <b-badge
+            v-for="tech in row.item.compTech"
+            :key="tech"
+            size="sm"
+            :class="tech"
+          >
+            {{ tech }}
+          </b-badge>
+        </template>
+
+        <template #table-caption>
+          <b-badge variant="success">focus</b-badge> refers to literature
+          <b-badge variant="danger">with</b-badge> a detailed description in our
+          EHR STAR. <br />
+          <b-badge variant="warning">context</b-badge> refers to literature
+          <b-badge variant="danger">without</b-badge> a detailed description in
+          our EHR STAR.
+        </template>
+      </b-table>
+
+      <b-modal
+        :id="infoModal.id"
+        :title="infoModal.data.title"
+        ok-only
+        @hide="resetInfoModal"
+      >
+        <template #modal-title>
+          <h4>
+            {{ infoModal.data.title }}
+          </h4>
+
+          <h6>
+            <i>{{ infoModal.data.pub }}</i>
+          </h6>
+          <h6>{{ infoModal.data.author.join(', ') }}</h6>
+        </template>
+
+        <b-img
+          fluid
+          :src="`/images/${infoModal.data.name}.png`"
+          :alt="infoModal.data.citation"
+        ></b-img>
+
+        <template #modal-footer="{ ok }">
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="ok()"
+            >
+              Close
+            </b-button>
+
+            <b-button
+              target="_blank"
+              :href="'https://doi.org/' + infoModal.data.DOI"
+              variant="danger"
+              size="sm"
+              class="float-right mr-1"
+            >
+              Read
+            </b-button>
+          </div>
+        </template>
+      </b-modal>
+
+      <div>
+        <b-col sm="12">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="center"
+            size="md"
+            class="my-0"
+          ></b-pagination>
+        </b-col>
+      </div>
+      <hr />
+    </b-container>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      papers: [
+      items: [
         {
           DOI: '10.1016/B978-155860915-0/50038-X',
           EHRs: 1,
@@ -1361,20 +1364,20 @@ export default {
           key: 'title',
           label: 'Title',
           sortable: true,
-          thStyle: 'width:40%',
+          thStyle: 'width:35%',
         },
-        { key: 'citation', label: 'Image' },
+        { key: 'citation', label: 'Image', thStyle: 'width:15%' },
         {
           key: 'author',
           label: 'Authors',
           sortable: true,
           thStyle: 'width:25%',
         },
-        { key: 'pub', label: 'Publication' },
+        { key: 'pub', label: 'Publication', thStyle: 'width:10%' },
         {
           key: 'compTech',
           label: 'Techniques',
-          thStyle: 'width:5%',
+          thStyle: 'width:10%',
         },
         {
           key: 'year',
@@ -1616,7 +1619,7 @@ export default {
         return false
       }
 
-      const res = this.papers.filter((paper) => {
+      const res = this.items.filter((paper) => {
         if (
           this.authorSelected.length === 0 &&
           this.techniqueSelected.length === 0
@@ -1647,14 +1650,15 @@ export default {
         return false
       })
 
+      // update pagination
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.totalRows = res.length
       return res
     },
   },
   mounted() {
-    // Set the initial number of papers
-    this.totalRows = this.papers.length
+    // Set the initial number of items
+    this.totalRows = this.items.length
   },
   methods: {
     availableTags(type) {
@@ -1675,7 +1679,7 @@ export default {
 
       for (let i = 0; i < filters.length; i++) {
         const f = filters[i]
-        if (row[f].toString().toLowerCase().includes(filter)) {
+        if (row[f].toString().toLowerCase().includes(filter.toLowerCase())) {
           return true
         }
       }
