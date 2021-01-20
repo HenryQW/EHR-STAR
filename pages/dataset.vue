@@ -3,7 +3,7 @@
     <h1>EHR Related Datasets</h1>
     <b-container class="mb-2" fluid>
       <b-row>
-        <b-col md="6">
+        <b-col md="8">
           <b-form-group
             v-slot="{ ariaDescribedby }"
             v-model="sortDirection"
@@ -28,7 +28,7 @@
             </b-form-checkbox-group>
           </b-form-group>
         </b-col>
-        <b-col md="6">
+        <b-col md="4">
           <b-form-group>
             <b-input-group size="md">
               <b-input-group-prepend>
@@ -186,7 +186,7 @@ export default {
           year: 1987,
           citation: 'Graff2017',
           dataset: 110,
-          publications: '>100',
+          publications: '100+',
           registration: 'o',
           type: 'collection',
         },
@@ -215,7 +215,7 @@ export default {
           year: 1999,
           citation: 'Goldberger2000',
           dataset: 126,
-          publications: '>100',
+          publications: '100+',
           registration: 'o',
           verification: 'some',
           type: 'collection',
@@ -307,7 +307,7 @@ export default {
           name: 'FAIRsharing',
           year: 2007,
           citation: 'FAIRsharing',
-          publications: '>100',
+          publications: '100+',
           registration: 'o',
           type: 'catalogue',
           covid: 'yes',
@@ -469,7 +469,7 @@ export default {
           name: 'COVID-19 Open Research Dataset Challenge',
           year: 2020,
           dataset: 1297,
-          publications: '>57,000',
+          publications: '57000+',
           citation: 'Kaggle2020',
           type: 'catalogue',
           covid: 'yes',
@@ -554,8 +554,8 @@ export default {
       filterOn: [],
       filterOptions: [
         { value: 'fee', text: 'Open Access' },
-        { value: 'registration', text: 'Registration not required' },
-        { value: 'verificaiton', text: 'Verificaiton not required' },
+        { value: 'registration', text: 'No registration required' },
+        { value: 'verificaiton', text: 'No verificaiton required' },
         { value: 'covid', text: 'Covid-19 related' },
       ],
       filterOptionsSelected: [],
