@@ -72,22 +72,15 @@
         striped
         @filtered="onFiltered"
       >
-        <template #cell(title)="row">
-          <b-badge v-if="row.item.scope[0] === 'context'" variant="warning"
+        <template #cell(name)="row">
+          <b-badge v-if="row.item.scope === 'out'" variant="warning"
             >context</b-badge
           >
-          <b-badge v-if="row.item.scope[0] === 'focus'" variant="success"
-            >focus</b-badge
-          >
-          {{ row.item.title }}
-          <b-button
-            target="_blank"
-            :href="'https://doi.org/' + row.item.DOI"
-            variant="danger"
-            size="sm"
-          >
-            Read
-          </b-button>
+          <b-badge v-else variant="success">focus</b-badge>
+
+          <b-link target="_blank" :href="row.item.url"
+            >{{ row.item.name }}
+          </b-link>
         </template>
 
         <template #cell(type)="row">
@@ -189,6 +182,7 @@ export default {
           publications: '100+',
           registration: 'o',
           type: 'collection',
+          url: 'http://archive.ics.uci.edu/ml',
         },
         {
           name: 'Rotterdam Study',
@@ -200,6 +194,7 @@ export default {
           fee: 't',
           type: 'collection',
           scope: 'out',
+          url: 'http://www.erasmus-epidemiology.nl/research/ergo.htm',
         },
         {
           name: 'Study of Health in Pomerania',
@@ -209,6 +204,7 @@ export default {
           verification: 't',
           type: 'collection',
           scope: 'out',
+          url: 'http://www2.medizin.uni-greifswald.de/cm/fv/ship.html',
         },
         {
           name: 'PhysioNet',
@@ -219,6 +215,7 @@ export default {
           registration: 'o',
           verification: 'some',
           type: 'collection',
+          url: 'https://physionet.org',
         },
         {
           name: 'Public Health Wales',
@@ -226,6 +223,7 @@ export default {
           citation: 'PublicHealthWales',
           dataset: 21,
           type: 'collection',
+          url: 'https://phw.nhs.wales/data/',
         },
         {
           name: 'Human Mortality Database',
@@ -236,6 +234,7 @@ export default {
           publications: 577,
           registration: 't',
           covid: 'yes',
+          url: 'https://www.mortality.org',
         },
         {
           name:
@@ -249,6 +248,7 @@ export default {
           type: 'collection',
           scope: 'out',
           fee: 't',
+          url: 'https://www.giantt.nl',
         },
         {
           name: "Tracking Adolescents' Individual Lives Survey (TRAILS)",
@@ -260,6 +260,7 @@ export default {
           type: 'collection',
           scope: 'out',
           fee: 't',
+          url: 'https://www.trails.nl/en/',
         },
         {
           name: 'LifeLines Biobank',
@@ -272,6 +273,7 @@ export default {
           scope: 'out',
           covid: 'yes',
           fee: 't',
+          url: 'https://www.lifelines.nl',
         },
         {
           name: 'National NLP Clinical Challenges',
@@ -281,6 +283,7 @@ export default {
           publications: 124,
           registration: 't',
           verification: 't',
+          url: 'https://n2c2.dbmi.hms.harvard.edu',
         },
         {
           name: 'SAIL Databank',
@@ -291,6 +294,7 @@ export default {
           verification: 'collaboration',
           type: 'collection',
           scope: 'out',
+          url: 'https://saildatabank.com',
         },
         {
           name: 'UK Biobank',
@@ -302,6 +306,7 @@ export default {
           type: 'collection',
           scope: 'out',
           fee: 't',
+          url: 'https://www.ukbiobank.ac.uk',
         },
         {
           name: 'FAIRsharing',
@@ -311,6 +316,7 @@ export default {
           registration: 'o',
           type: 'catalogue',
           covid: 'yes',
+          url: 'https://fairsharing.org',
         },
         {
           name: 'Data.gov',
@@ -319,6 +325,7 @@ export default {
           dataset: 1727,
           type: 'catalogue',
           covid: 'yes',
+          url: '',
         },
         {
           name: 'NHS Scotland Open Data',
@@ -326,6 +333,7 @@ export default {
           citation: 'NHSScotlandOpenData',
           dataset: 46,
           type: 'collection',
+          url: 'https://www.data.gov',
         },
         {
           name: 'VAST Challenge 2010 Mini 2',
@@ -333,6 +341,8 @@ export default {
           citation: 'VAST2010MC2',
           specialty: 'Pandemic Spread',
           publications: 274,
+          url:
+            'https://www.cs.umd.edu/hcil/varepository/VAST%20Challenge%202010/challenges/MC2%20-%20Characterization%20of%20Pandemic%20Spread/',
         },
         {
           name: 'Data.gov.uk',
@@ -341,6 +351,7 @@ export default {
           dataset: 1807,
           type: 'collection',
           covid: 'yes',
+          url: 'https://data.gov.uk',
         },
         {
           name: 'HealthData.gov',
@@ -349,6 +360,7 @@ export default {
           dataset: 4350,
           type: 'catalogue',
           covid: 'yes',
+          url: 'https://healthdata.gov',
         },
         {
           name: 'SEER Program',
@@ -360,6 +372,7 @@ export default {
           type: 'collection',
           fee: 'some',
           scope: 'out',
+          url: 'https://seer.cancer.gov',
         },
         {
           name: 'European Data Portal',
@@ -369,6 +382,7 @@ export default {
           note: 'not all in English',
           type: 'catalogue',
           covid: 'yes',
+          url: 'https://www.europeandataportal.eu/en',
         },
         {
           name: 'Maelstrom Catalogue',
@@ -378,6 +392,7 @@ export default {
           publications: '21',
           registration: 'o',
           type: 'catalogue',
+          url: 'https://www.maelstrom-research.org/maelstrom-catalogue',
         },
         {
           name: 'OpenDataNI',
@@ -385,6 +400,7 @@ export default {
           citation: 'OpenDataNI',
           dataset: 67,
           type: 'collection',
+          url: 'https://www.opendatani.gov.uk',
         },
         {
           name: 're3data',
@@ -393,6 +409,7 @@ export default {
           dataset: '2000+',
           type: 'catalogue',
           covid: 'yes',
+          url: 'https://www.re3data.org',
         },
         {
           name: 'Health Data Research Innovation Gateway',
@@ -400,9 +417,10 @@ export default {
           citation: 'HDR2019',
           registration: 't',
           verification: 'some',
-          dataset: 448,
+          dataset: 556,
           covid: 'yes',
           type: 'collection',
+          url: 'https://www.healthdatagateway.org',
         },
         {
           name: 'Global Health Data Exchange',
@@ -414,6 +432,7 @@ export default {
           publications: 264,
           registration: 'o',
           type: 'collection',
+          url: 'http://ghdx.healthdata.org',
         },
         {
           name: 'MIMIC-III',
@@ -423,6 +442,7 @@ export default {
           publications: 274,
           registration: 't',
           verification: 't',
+          url: 'https://mimic.physionet.org',
         },
         {
           name: 'Project Tycho',
@@ -431,25 +451,31 @@ export default {
           dataset: 360,
           publications: 18,
           registration: 't',
+          url: 'https://www.tycho.pitt.edu',
         },
         {
           name: 'Big Cities Health Coalition',
           year: 2014,
           citation: 'BigCitiesHealthCoalition',
           type: 'collection',
+          url: 'https://www.bigcitieshealth.org',
         },
         {
           name: 'Public Health England',
           year: 2017,
           citation: 'PublicHealthEngland',
           type: 'collection',
+          covid: 'yes',
+          url: 'https://www.gov.uk/guidance/phe-data-and-analysis-tools',
         },
         {
           name: 'NHS England',
           year: 2017,
           citation: 'NHSEngland',
-          dataset: 97,
+          dataset: 841,
           type: 'collection',
+          covid: 'yes',
+          url: 'https://data.england.nhs.uk/dataset?_groups_limit=0',
         },
         {
           name: 'City Health Dashboard',
@@ -457,6 +483,7 @@ export default {
           citation: 'Gourevitch2019',
           type: 'collection',
           scope: 'out',
+          url: 'https://www.cityhealthdashboard.com',
         },
         {
           name: 'COVID-19 Dashboard',
@@ -464,6 +491,7 @@ export default {
           citation:
             'JohnsHopkinsUniversity2020,JohnsHopkinsUniversity2020b,Dong2020',
           covid: 'yes',
+          url: 'https://coronavirus.jhu.edu/map.html',
         },
         {
           name: 'COVID-19 Open Research Dataset Challenge',
@@ -473,6 +501,8 @@ export default {
           citation: 'Kaggle2020',
           type: 'catalogue',
           covid: 'yes',
+          url:
+            'https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge',
         },
         {
           name: 'The Scottish COVID-19 Response Consortium',
@@ -480,6 +510,7 @@ export default {
           dataset: 1,
           citation: 'SCRC2020',
           covid: 'yes',
+          url: 'https://www.gla.ac.uk/research/az/scrc/',
         },
       ],
       fields: [
@@ -487,19 +518,18 @@ export default {
           key: 'name',
           label: 'Name',
           sortable: true,
-          thStyle: 'width:10%',
         },
         {
           key: 'type',
           label: 'Data Source Type',
           sortable: true,
-          thStyle: 'width:7%',
+          thStyle: 'width:9%',
         },
         {
           key: 'specialty',
           label: 'Data Specialty',
           sortable: true,
-          thStyle: 'width:7%',
+          thStyle: 'width:8%',
         },
         {
           key: 'dataset',
@@ -523,13 +553,13 @@ export default {
           key: 'registration',
           label: 'Registration',
           sortable: true,
-          thStyle: 'width:5%',
+          thStyle: 'width:8%',
         },
         {
           key: 'verification',
           label: 'Verification',
           sortable: true,
-          thStyle: 'width:5%',
+          thStyle: 'width:8%',
         },
         {
           key: 'fee',
