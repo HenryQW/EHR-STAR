@@ -234,10 +234,7 @@
         </template>
 
         <template #cell(citation)="row">
-          <div
-            v-if="row.item.scope[0] !== 'context' && row.item.name"
-            @click="openModal(row.item, row.index, $event.target)"
-          >
+          <div @click="openModal(row.item, row.index, $event.target)">
             <b-img
               thumbnail
               fluid
