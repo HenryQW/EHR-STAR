@@ -360,8 +360,7 @@ export default {
           citation: 'Malik2015',
           compTech: ['ESS'],
           name: 'CoCo',
-          pub:
-            'Proceedings of the 20th International Conference on Intelligent User Interfaces',
+          pub: 'Proceedings of the 20th International Conference on Intelligent User Interfaces',
           related: ['Onukwugha2016'],
           scope: ['focus'],
           term: ['EHR'],
@@ -387,8 +386,7 @@ export default {
           ],
           citation: 'Bernard2015',
           compTech: ['ML'],
-          pub:
-            "Proceedings of the 2015 workshop on visual analytics in healthcare - VAHC '15",
+          pub: "Proceedings of the 2015 workshop on visual analytics in healthcare - VAHC '15",
           related: ['Preim2020'],
           scope: ['focus'],
           term: ['EHR'],
@@ -435,8 +433,7 @@ export default {
           author: ['Filip Dabek', 'Elizabeth Jimenez', 'Jesus J. Caban'],
           citation: 'Dabek2017',
           compTech: ['ML'],
-          pub:
-            '2017 IEEE workshop on visual analytics in healthcare, VAHC 2017',
+          pub: '2017 IEEE workshop on visual analytics in healthcare, VAHC 2017',
           scope: ['focus'],
           term: ['EHR'],
           name: 'Timeline-based',
@@ -459,8 +456,7 @@ export default {
           citation: 'Kamaleswaran2014',
           compTech: ['Clustering'],
           name: 'Visualizing Neonatal Spells',
-          pub:
-            'IEEE VIS 2014 workshop on visualization of electronic health records',
+          pub: 'IEEE VIS 2014 workshop on visualization of electronic health records',
           scope: ['focus'],
           term: ['EMR', 'CDS'],
           title:
@@ -602,8 +598,7 @@ export default {
           compTech: ['NLP', 'ML'],
           name: 'NLPReViz',
           notVis: true,
-          pub:
-            'Journal of the American Medical Informatics Association : JAMIA',
+          pub: 'Journal of the American Medical Informatics Association : JAMIA',
           scope: ['focus'],
           term: ['EHR', 'CDS'],
           title:
@@ -696,8 +691,7 @@ export default {
           ],
           citation: 'Goren-Bar2004',
           name: 'KNAVE-II',
-          pub:
-            "Proceedings of the working conference on Advanced visual interfaces - AVI '04",
+          pub: "Proceedings of the working conference on Advanced visual interfaces - AVI '04",
           related: ['Roque2010', 'Rind2013', 'West2015'],
           scope: ['context'],
           term: ['Time-oriented clinical data', 'CDS'],
@@ -792,8 +786,7 @@ export default {
           author: ['David Borland', 'Vivian L West', 'W Ed Hammond'],
           citation: 'Borland2014',
           compTech: ['Comparison'],
-          pub:
-            'Proceedings of the 2014 Workshop on Visual Analytics in Healthcare',
+          pub: 'Proceedings of the 2014 Workshop on Visual Analytics in Healthcare',
           related: ['Gotz2016'],
           scope: ['focus'],
           term: ['Population health'],
@@ -812,8 +805,7 @@ export default {
           citation: 'Bade2004',
           name: 'Midgaard',
           notVis: true,
-          pub:
-            "Proceedings of the 2004 conference on Human factors in computing systems - CHI '04",
+          pub: "Proceedings of the 2004 conference on Human factors in computing systems - CHI '04",
           related: ['Rind2013'],
           scope: ['context'],
           term: ['EHR'],
@@ -983,8 +975,7 @@ export default {
           compTech: ['Comparison'],
           elated: ['Rind2013', 'Rind2017a', 'Preim2020'],
           name: 'CareCruiser',
-          pub:
-            'IEEE pacific visualization symposium 2011, PacificVis 2011 - proceedings',
+          pub: 'IEEE pacific visualization symposium 2011, PacificVis 2011 - proceedings',
           scope: ['focus'],
           term: ['Patient record', 'CDS'],
           title:
@@ -1196,8 +1187,7 @@ export default {
           compTech: ['GEO', 'NLP'],
           name: 'Health-Terrain',
           number: 'Visigrapp',
-          pub:
-            'Proceedings of the 11th joint conference on computer vision, imaging and computer graphics theory and applications',
+          pub: 'Proceedings of the 11th joint conference on computer vision, imaging and computer graphics theory and applications',
           scope: ['focus'],
           term: ['EHR', 'CDS'],
           title:
@@ -1257,8 +1247,7 @@ export default {
           citation: 'Rind2010',
           name: 'VisuExplore',
           notVis: true,
-          pub:
-            'Proceedings of the 1st International Workshop on Interactive Systems in Healthcare (WISH@CHI2010)',
+          pub: 'Proceedings of the 1st International Workshop on Interactive Systems in Healthcare (WISH@CHI2010)',
           related: ['Rind2013', 'Rind2017a'],
           scope: ['context'],
           term: ['Medical data'],
@@ -1353,8 +1342,7 @@ export default {
           citation: 'Gotz2011',
           compTech: ['Clustering'],
           name: 'DICON',
-          pub:
-            'AMIA ... Annual Symposium proceedings / AMIA Symposium. AMIA Symposium',
+          pub: 'AMIA ... Annual Symposium proceedings / AMIA Symposium. AMIA Symposium',
           related: ['Rind2013', 'West2015'],
           scope: ['focus'],
           term: ['EHR', 'CDS'],
@@ -1381,8 +1369,7 @@ export default {
           citation: 'Wongsuphasawat2011',
           compTech: ['ESS'],
           name: 'LifeFlow',
-          pub:
-            "Proceedings of the 2011 annual conference on Human factors in computing systems - CHI '11",
+          pub: "Proceedings of the 2011 annual conference on Human factors in computing systems - CHI '11",
           related: ['Rind2013', 'West2015', 'Rind2017a'],
           scope: ['focus'],
           term: ['EHR'],
@@ -1401,8 +1388,7 @@ export default {
           citation: 'Faiola2011',
           name: 'MIVA',
           notVis: true,
-          pub:
-            'International conference on ergonomics and health aspects of work with computers',
+          pub: 'International conference on ergonomics and health aspects of work with computers',
           related: ['Rind2013'],
           scope: ['context'],
           term: ['EMR', 'CDS'],
@@ -1473,8 +1459,7 @@ export default {
           compTech: ['NLP', 'ML'],
           name: 'NLPReViz',
           notVis: true,
-          pub:
-            'Journal of the American Medical Informatics Association : JAMIA',
+          pub: 'Journal of the American Medical Informatics Association : JAMIA',
           scope: ['focus'],
           term: ['EHR', 'CDS'],
           title:

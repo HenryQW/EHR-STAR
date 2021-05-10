@@ -53,8 +53,7 @@ const input = [
     citation: 'Bade2004',
     name: 'Midgaard',
     notVis: true,
-    pub:
-      "Proceedings of the 2004 conference on Human factors in computing systems - CHI '04",
+    pub: "Proceedings of the 2004 conference on Human factors in computing systems - CHI '04",
     related: ['Rind2013'],
     scope: ['context'],
     term: ['EHR'],
@@ -76,8 +75,7 @@ const input = [
     ],
     citation: 'Goren-Bar2004',
     name: 'KNAVE-II',
-    pub:
-      "Proceedings of the working conference on Advanced visual interfaces - AVI '04",
+    pub: "Proceedings of the working conference on Advanced visual interfaces - AVI '04",
     related: ['Roque2010', 'Rind2013', 'West2015'],
     scope: ['context'],
     term: ['Time-oriented clinical data', 'CDS'],
@@ -180,8 +178,7 @@ const input = [
     citation: 'Rind2010',
     name: 'VisuExplore',
     notVis: true,
-    pub:
-      'Proceedings of the 1st International Workshop on Interactive Systems in Healthcare (WISH@CHI2010)',
+    pub: 'Proceedings of the 1st International Workshop on Interactive Systems in Healthcare (WISH@CHI2010)',
     related: ['Rind2013', 'Rind2017a'],
     scope: ['context'],
     term: ['Medical data'],
@@ -197,8 +194,7 @@ const input = [
     citation: 'Faiola2011',
     name: 'MIVA',
     notVis: true,
-    pub:
-      'International conference on ergonomics and health aspects of work with computers',
+    pub: 'International conference on ergonomics and health aspects of work with computers',
     related: ['Rind2013'],
     scope: ['context'],
     term: ['EMR', 'CDS'],
@@ -214,8 +210,7 @@ const input = [
     citation: 'Gotz2011',
     compTech: ['Clustering'],
     name: 'DICON',
-    pub:
-      'AMIA ... Annual Symposium proceedings / AMIA Symposium. AMIA Symposium',
+    pub: 'AMIA ... Annual Symposium proceedings / AMIA Symposium. AMIA Symposium',
     related: ['Rind2013', 'West2015'],
     scope: ['focus'],
     term: ['EHR', 'CDS'],
@@ -239,8 +234,7 @@ const input = [
     compTech: ['Comparison'],
     elated: ['Rind2013', 'Rind2017a', 'Preim2020'],
     name: 'CareCruiser',
-    pub:
-      'IEEE pacific visualization symposium 2011, PacificVis 2011 - proceedings',
+    pub: 'IEEE pacific visualization symposium 2011, PacificVis 2011 - proceedings',
     scope: ['focus'],
     term: ['Patient record', 'CDS'],
     title:
@@ -264,8 +258,7 @@ const input = [
     citation: 'Wongsuphasawat2011',
     compTech: ['ESS'],
     name: 'LifeFlow',
-    pub:
-      "Proceedings of the 2011 annual conference on Human factors in computing systems - CHI '11",
+    pub: "Proceedings of the 2011 annual conference on Human factors in computing systems - CHI '11",
     related: ['Rind2013', 'West2015', 'Rind2017a'],
     scope: ['focus'],
     term: ['EHR'],
@@ -462,8 +455,7 @@ const input = [
     citation: 'Malik2015',
     compTech: ['ESS'],
     name: 'CoCo',
-    pub:
-      'Proceedings of the 20th International Conference on Intelligent User Interfaces',
+    pub: 'Proceedings of the 20th International Conference on Intelligent User Interfaces',
     related: ['Onukwugha2016'],
     scope: ['focus'],
     term: ['EHR'],
@@ -486,8 +478,7 @@ const input = [
     ],
     citation: 'Bernard2015',
     compTech: ['ML'],
-    pub:
-      "Proceedings of the 2015 workshop on visual analytics in healthcare - VAHC '15",
+    pub: "Proceedings of the 2015 workshop on visual analytics in healthcare - VAHC '15",
     related: ['Preim2020'],
     scope: ['focus'],
     term: ['EHR'],
@@ -582,8 +573,7 @@ const input = [
     compTech: ['GEO', 'NLP'],
     name: 'Health-Terrain',
     number: 'Visigrapp',
-    pub:
-      'Proceedings of the 11th joint conference on computer vision, imaging and computer graphics theory and applications',
+    pub: 'Proceedings of the 11th joint conference on computer vision, imaging and computer graphics theory and applications',
     scope: ['focus'],
     term: ['EHR', 'CDS'],
     title: 'Healthcare data visualization: Geospatial and temporal integration',

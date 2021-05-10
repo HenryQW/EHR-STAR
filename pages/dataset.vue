@@ -237,8 +237,7 @@ export default {
           url: 'https://www.mortality.org',
         },
         {
-          name:
-            'Groningen Initiative to Analyze Type 2 Diabetes Treatment (GIANTT)',
+          name: 'Groningen Initiative to Analyze Type 2 Diabetes Treatment (GIANTT)',
           lan: 'Dutch',
           year: 2004,
           citation: 'GIANTT',
@@ -341,8 +340,7 @@ export default {
           citation: 'VAST2010MC2',
           specialty: 'Pandemic Spread',
           publications: 274,
-          url:
-            'https://www.cs.umd.edu/hcil/varepository/VAST%20Challenge%202010/challenges/MC2%20-%20Characterization%20of%20Pandemic%20Spread/',
+          url: 'https://www.cs.umd.edu/hcil/varepository/VAST%20Challenge%202010/challenges/MC2%20-%20Characterization%20of%20Pandemic%20Spread/',
         },
         {
           name: 'Data.gov.uk',
@@ -501,8 +499,7 @@ export default {
           citation: 'Kaggle2020',
           type: 'catalogue',
           covid: 'yes',
-          url:
-            'https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge',
+          url: 'https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge',
         },
         {
           name: 'The Scottish COVID-19 Response Consortium',
