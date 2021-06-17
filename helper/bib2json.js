@@ -1002,6 +1002,26 @@ const input = [
       'DPVis: Visual analytics with hidden markov models for disease progression pathways',
     year: 2020,
   },
+  {
+    DOI: '10.1007/s00371-021-02171-w',
+    EHRCount: '200 real patient letters',
+    EHRs: 101,
+    UMLS: ['C0014544'],
+    author: [
+      'Qiru Wang',
+      'Robert S. Laramee',
+      'Arron Lacey',
+      'William Owen Pickrell',
+    ],
+    citation: 'Wang2021',
+    compTech: ['Comparison', 'NLP'],
+    name: 'LetterVis',
+    pub: 'The Visual Computer',
+    scope: ['focus'],
+    term: ['EHR'],
+    title: 'LetterVis: A Letter-Space View of Electronic Health Records',
+    year: 2021,
+  },
 ]
 
 let data
