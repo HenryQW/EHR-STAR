@@ -5,10 +5,7 @@
         <h4>About</h4>
         This is a collection of literature and datasets included in the
         state-of-the-art (STAR) report,
-        <i
-          >EHR STAR: The State-of-the-art in Interactive EHR and PopHR
-          Visualization</i
-        >.
+        <i>EHR STAR: The State-of-the-art in Interactive EHR Visualization</i>.
       </b-col>
       <b-col cols="5">
         <h4>Contact</h4>
