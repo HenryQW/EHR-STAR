@@ -1022,6 +1022,61 @@ const input = [
     title: 'LetterVis: A Letter-Space View of Electronic Health Records',
     year: 2021,
   },
+  {
+    DOI: '10.1111/cgf.13662',
+    EHRS: 1001,
+    UMLS: ['C0023981'],
+    author: [
+      'Shiva Alemzadeh',
+      'Uli Niemann',
+      'Till Ittermann',
+      'Henry Völzke',
+      'Daniel Schneider',
+      'Myra Spiliopoulou',
+      'Katja Bühler',
+      'Bernhard Preim',
+    ],
+    challenge: [1, 5],
+    citation: 'Alemzadeh2019',
+    compTech: ['GEO'],
+    evaluation: [0, 0, 0, 0],
+    pub: 'Computer Graphics Forum',
+    scope: ['focus'],
+    techniques: [
+      'Chord',
+      'Standard 2D Displays',
+      'Parallel Coordinates',
+      'Matrix',
+    ],
+    term: ['Longitudinal cohort study'],
+    title:
+      'Visual Analysis of Missing Values in Longitudinal Cohort Study Data',
+    year: 2019,
+  },
+  {
+    DOI: '10.1109/TVCG.2015.2468291',
+    EHRs: 101,
+    UMLS: ['C3242284', 'C1659543', 'C2711227'],
+    author: [
+      'Paul Klemm',
+      'Kai Lawonn',
+      'Sylvia Glaßer',
+      'Uli Niemann',
+      'Katrin Hegenscheid',
+      'Henry Völzke',
+      'Bernhard Preim',
+    ],
+    challenge: [1, 2],
+    citation: 'Klemm2015a',
+    compTech: ['GEO'],
+    evaluation: [3, 3, 2, 0],
+    pub: 'IEEE Transactions on Visualization and Computer Graphics',
+    scope: ['focus'],
+    techniques: ['Heatmap+'],
+    term: ['Population health'],
+    title: '3D Regression Heat Map Analysis of Population Study Data',
+    year: 2015,
+  },
 ]
 
 let data
@@ -1043,5 +1098,18 @@ BibtexParser(data).entries.forEach((e) => {
   }
 })
 
-proc.stdin.write(JSON.stringify(output))
+const authorList = []
+
+output.forEach((e) => {
+  e.author.forEach((a) => {
+    if (!authorList.includes(a)) {
+      authorList.push(a)
+    }
+  })
+})
+
+authorList.sort()
+
+// proc.stdin.write(JSON.stringify(output))
+proc.stdin.write(JSON.stringify(authorList))
 proc.stdin.end()
