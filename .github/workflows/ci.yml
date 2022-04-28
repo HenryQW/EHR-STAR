@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - master
   pull_request:
     branches:
       - main
-      - master
 
 jobs:
   ci:
@@ -21,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
@@ -47,3 +45,17 @@ jobs:
       - name: Run linter 👀
         run: yarn lint
 
+
+  automerge:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3
+        if: >-
+          ${{ github.actor == 'dependabot[bot]' && github.event_name ==
+          'pull_request' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
