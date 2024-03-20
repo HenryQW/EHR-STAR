@@ -14,7 +14,7 @@
     "bib2json": "^0.0.1",
     "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
-    "core-js": "^3.36.0",
+    "core-js": "^3.36.1",
     "nuxt": "^3.11.1"
   },
   "devDependencies": {
